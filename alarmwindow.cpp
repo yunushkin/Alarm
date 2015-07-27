@@ -21,20 +21,23 @@ AlarmWindow::AlarmWindow(QWidget *parent) :
 AlarmWindow::~AlarmWindow()
 {
     delete ui;
+    delete timer_;
+    delete alarmRepository_;
 }
 
 
 void AlarmWindow::onTimeout()
 {
     QDateTime dt = QDateTime::currentDateTime();
-
     ui->lbTime->setText("Текущее время:" + dt.toString("hh:mm:ss dd/MM/yyyy"));
     QString lbText = "";
     QVector<AlarmTask> alarmList = alarmRepository_->match(dt.time());
     int taskNumber = 1;
     foreach (AlarmTask task, alarmList) {
-        lbText += QString("Задача N%1 :").arg(taskNumber++) + "\n" ;
-        lbText += "с "  + task.getTime().toString() + " по " + task.getTime().addMSecs(task.getDurationMs()).toString() + "\n" + task.getText() + +  "\n";
+        lbText += QString("Задача N%1 :").arg(taskNumber++) + "\n" +
+                        "с "  + task.getTime().toString() +
+                        " по " + task.getTime().addMSecs(task.getDurationMs()).toString() + "\n" +
+                        task.getText() + +  "\n";
     }
     if (alarmList.empty()) {
         hide();
