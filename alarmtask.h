@@ -10,18 +10,9 @@ class AlarmTask
 public:
     AlarmTask();
     AlarmTask(const QString &text,const QTime &time, int duration);
-    QString getText() const
-    {
-        return text_;
-    }
-    QTime getTime() const
-    {
-        return time_;
-    }
-    int getDurationMs() const
-    {
-        return duration_;
-    }
+    QString getText() const;
+    QTime getTime() const;
+    int getDurationMs() const;
 
 private:
     QString text_;

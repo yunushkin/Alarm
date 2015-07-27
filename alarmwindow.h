@@ -22,6 +22,7 @@ private:
     Ui::AlarmWindow *ui;
     QTimer* timer_;
     AlarmRepository* alarmRepository_;
+    static const int refreshTime;
 private slots:
     void onTimeout();
 };

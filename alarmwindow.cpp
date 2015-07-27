@@ -1,19 +1,23 @@
 #include "alarmwindow.h"
 #include "ui_alarmwindow.h"
+#include "alarmrepository.h"
+
 #include <QDateTime>
 #include <QTimer>
-#include "alarmrepository.h"
 #include <QDebug>
+
+const int AlarmWindow::refreshTime = 1000;
 
 AlarmWindow::AlarmWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AlarmWindow)
 {
+
     ui->setupUi(this);
     alarmRepository_ = new AlarmRepository();
     alarmRepository_->load();
     timer_ = new QTimer(this);
-    timer_->setInterval(1000);
+    timer_->setInterval(refreshTime);
     connect(timer_, SIGNAL(timeout()),this, SLOT(onTimeout()));
     timer_->start();
 }
@@ -24,7 +28,6 @@ AlarmWindow::~AlarmWindow()
     delete timer_;
     delete alarmRepository_;
 }
-
 
 void AlarmWindow::onTimeout()
 {
