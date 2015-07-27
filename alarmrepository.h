@@ -8,20 +8,8 @@ class AlarmRepository
 {
 public:
     AlarmRepository();
-    QVector<AlarmTask> getAll() {
-        return alarmTaskList;
-    }
-    QVector<AlarmTask> match(const QTime &currentTime) {
-        QVector<AlarmTask> result;
-        foreach (AlarmTask alarmTask, alarmTaskList) {
-            QTime begin = alarmTask.getTime();
-            QTime end = begin.addMSecs(alarmTask.getDurationMs());
-            if (currentTime >= begin  && currentTime <=end) {
-                result.push_back(alarmTask);
-            }
-        }
-        return result;
-    }
+    QVector<AlarmTask> getAll() const;
+    QVector<AlarmTask> match(const QTime &currentTime) const;
     bool load();
 private:
     QVector<AlarmTask> alarmTaskList;

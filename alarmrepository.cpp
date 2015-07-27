@@ -8,8 +8,25 @@
 
 const QString AlarmRepository::jsonFile_ = QString("task.json");
 AlarmRepository::AlarmRepository()
-
 {
+}
+
+QVector<AlarmTask> AlarmRepository::getAll() const
+{
+    return alarmTaskList;
+}
+
+QVector<AlarmTask> AlarmRepository::match(const QTime &currentTime) const
+{
+    QVector<AlarmTask> result;
+    foreach (AlarmTask alarmTask, alarmTaskList) {
+        QTime begin = alarmTask.getTime();
+        QTime end = begin.addMSecs(alarmTask.getDurationMs());
+        if (currentTime >= begin  && currentTime <= end) {
+            result.push_back(alarmTask);
+        }
+    }
+    return result;
 }
 
 bool AlarmRepository::load()
@@ -25,7 +42,6 @@ bool AlarmRepository::load()
         return false;
     }
     foreach (QJsonValue jsonValue, json.array()) {
-        qDebug()<<QTime::fromString(jsonValue.toObject().value("time").toString(), "hh:mm:ss");
         alarmTaskList.push_back(AlarmTask(
                                 jsonValue.toObject()["text"].toString(),
                                 QTime::fromString(jsonValue.toObject().value("time").toString(), "hh:mm:ss"),
