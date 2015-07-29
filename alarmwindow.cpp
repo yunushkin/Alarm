@@ -45,8 +45,12 @@ void AlarmWindow::onTimeout()
     if (alarmList.empty()) {
         hide();
     } else {
-        showMaximized();
-        ui->lbTodo->setText(lbText);
+        if (isHidden()) {
+            setWindowFlags(Qt::WindowStaysOnTopHint);
+            showMaximized();
+            activateWindow();
+            ui->lbTodo->setText(lbText);
+        }
 //        QApplication::beep();
     }
 }
